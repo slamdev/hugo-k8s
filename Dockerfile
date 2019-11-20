@@ -20,7 +20,6 @@ RUN apk --no-cache add libstdc++ ca-certificates wget \
  && apk del wget ca-certificates
 
 VOLUME /opt/cache
-VOLUME /opt/content
 VOLUME /opt/destination
 VOLUME /opt/source
 
@@ -30,7 +29,6 @@ ENTRYPOINT ["hugo",\
            "server",\
            "--cacheDir", "/opt/cache",\
            "--destination", "/opt/destination",\
-           "--contentDir", "/opt/content",\
            "--source", "/opt/source",\
            "--minify",\
            "--bind", "0.0.0.0",\
