@@ -54,10 +54,14 @@ spec:
               mountPath: /opt/content
             - name: destination
               mountPath: /opt/destination
+            - name: source
+              mountPath: /opt/source
       volumes:
         - name: cache
           emptyDir: {}
         - name: content
           emptyDir: {}
         - name: destination
+          emptyDir: {}
+        - name: source
           emptyDir: {}
