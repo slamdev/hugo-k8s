@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hugo
+spec:
+  selector:
+    name: hugo
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hugo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: hugo
+  template:
+    metadata:
+      labels:
+        name: hugo
+    spec:
+      containers:
+        - name: hugo
+          image: slamdev/hugo
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            requests:
+              cpu: 0.1
+              memory: 100Mi
+            limits:
+              cpu: 0.1
+              memory: 100Mi
+          volumeMounts:
+            - name: cache
+              mountPath: /opt/cache
+            - name: content
+              mountPath: /opt/content
+            - name: destination
+              mountPath: /opt/destination
+      volumes:
+        - name: cache
+          emptyDir: {}
+        - name: content
+          emptyDir: {}
+        - name: destination
+          emptyDir: {}
